@@ -5,7 +5,9 @@
   "version": "0.0.1",
   "description": "Supercharged Starter",
   "author": "Yeon a.k.a Blade <dev@yeonv.com>",
-  "repository": {"url": "https://github.com/YeonV/vitron"},
+  "repository": {
+    "url": "https://github.com/YeonV/vitron"
+  },
   "license": "MIT",
   "main": "dist/main/index.cjs",
   "scripts": {
