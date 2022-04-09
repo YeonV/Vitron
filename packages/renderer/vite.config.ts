@@ -29,7 +29,7 @@ export default defineConfig({
       }
     ),
   ],
-  base: '/Vitron/',
+  base: process.env.GHPAGES==="TRUE" ?'/Vitron/':'./',
   build: {
     sourcemap: true,
     outDir: '../../dist/renderer',
