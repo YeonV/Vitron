@@ -29,7 +29,7 @@ export default defineConfig({
       }
     ),
   ],
-  base: './',
+  base: '/Vitron/',
   build: {
     sourcemap: true,
     outDir: '../../dist/renderer',
