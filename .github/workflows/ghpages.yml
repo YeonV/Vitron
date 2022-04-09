@@ -26,7 +26,7 @@ jobs:
       run: yarn
     
     - name: Build project
-      run: yarn build
+      run: GHPAGES=TRUE yarn build
 
     - name: Upload production-ready build files
       uses: actions/upload-artifact@v2
