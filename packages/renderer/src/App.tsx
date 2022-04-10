@@ -44,13 +44,12 @@ const App = () => {
   };
 
   const toggleDarkmode = () => {
-    ipcRenderer.sendSync('toggle-darkmode', 'try');
+    if (ipcRenderer) {
+      ipcRenderer.sendSync('toggle-darkmode', 'try');
+    } else {
+      setMode(mode === 'dark' ? 'light' : 'dark')
+    }
   };
-
-  // If we use ipcRenderer in this scope, we must check the instance exists
-  if (ipcRenderer) {
-    // In this scope, the webpack process is the client
-  }
 
   useEffect(() => {
     if (ipcRenderer) {
@@ -62,7 +61,6 @@ const App = () => {
 
   useEffect(() => {
     if (ipcRenderer) {
-      // register `ping-pong` event
       ipcRenderer.on('ping-pong', (event: any, data: any) => {
         setMessage(data);
       });
@@ -78,8 +76,8 @@ const App = () => {
     }
     return () => {
       if (ipcRenderer) {
-        // unregister it
         ipcRenderer.removeAllListeners('ping-pong');
+        ipcRenderer.removeAllListeners('get');
       }
     };
   }, []);
