@@ -1,4 +1,4 @@
-name: Build & deploy
+name: Create Web Release
 
 on:
   push:

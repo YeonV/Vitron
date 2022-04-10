@@ -1,7 +1,8 @@
+name: Create App Release
+
 on:
   push:
     branches: [main]
-name: Create Release
 
 jobs:
   build:
@@ -45,9 +46,9 @@ jobs:
           release_version: ${{ steps.package-version.outputs.current-version}}
           REACT_APP_VERSION: ${{ steps.package-version.outputs.current-version}}
         run: GH_TOKEN=${{secrets.GH_TOKEN}} yarn dist
-      - name: Preparing Archive
-        run: |
-          printf "${{ env.MESSAGES }}" >> release/messages.md
+      # - name: Preparing Archive
+      #   run: |
+      #     printf "${{ env.MESSAGES }}" >> release/messages.md
       # - name: Create Archive
       #   uses: thedoctor0/zip-release@master
       #   with:
