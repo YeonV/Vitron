@@ -8,10 +8,23 @@ jobs:
   build:
     name: Build & Release
     if: "startsWith(github.event.head_commit.message, 'Release')"
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [16.x]
+        # os: [macos-latest, ubuntu-latest, windows-latest]
+        os: [ubuntu-latest, windows-latest]
+        include:
+        # - os: macos-latest
+        #   OSNAME: mac.dmg
+
+        - os: ubuntu-latest
+          OSNAME: linux
+          OSEND: AppImage
+
+        - os: windows-latest
+          OSNAME: win
+          OSEND: exe
     steps:
       #- name: Trigger external test
       #  run: |
@@ -75,6 +88,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          asset_path: ./release/${{ steps.package-version.outputs.current-version}}/Vitron-${{ steps.package-version.outputs.current-version}}-Installer.AppImage
-          asset_name: Vitron-${{ steps.package-version.outputs.current-version}}-Installer.AppImage
-          asset_content_type: application/AppImage
+          asset_path: ./release/${{ steps.package-version.outputs.current-version}}/Vitron-${{ steps.package-version.outputs.current-version}}-Installer.${{OSEND}}
+          asset_name: Vitron-${{ steps.package-version.outputs.current-version}}-Installer-${{OSNAME}}.${{OSEND}}
+          asset_content_type: application/${{OSEND}}
