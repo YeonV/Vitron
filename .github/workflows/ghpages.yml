@@ -4,13 +4,11 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
   build:
     name: Build
+    if: "startsWith(github.event.head_commit.message, 'dev') != true" 
     runs-on: ubuntu-latest
     
     steps:
