@@ -63,6 +63,7 @@ jobs:
           tag_name: ${{ steps.package-version.outputs.current-version}}
           release_name: Release ${{ steps.package-version.outputs.current-version}}
           body: |
+            Vitron
             ${{ env.MESSAGES }}
           draft: false
           prerelease: false
