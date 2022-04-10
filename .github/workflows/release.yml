@@ -44,11 +44,10 @@ jobs:
         env:
           release_version: ${{ steps.package-version.outputs.current-version}}
           REACT_APP_VERSION: ${{ steps.package-version.outputs.current-version}}
-        run: GHPAGES=TRUE yarn dist
+        run: yarn dist
       - name: Preparing Archive
         run: |
-          mv build ledfx_frontend_v2
-          printf "${{ env.MESSAGES }}" >> ledfx_frontend_v2/messages.md
+          printf "${{ env.MESSAGES }}" >> release/messages.md
       - name: Create Archive
         uses: thedoctor0/zip-release@master
         with:
