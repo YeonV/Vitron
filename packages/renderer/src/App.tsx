@@ -4,12 +4,12 @@ import react from '@/assets/react.svg';
 import vite from '@/assets/vite.svg';
 import styles from '@/styles/app.module.scss';
 import { Button } from '@mui/material';
-import { useState, useEffect, useMemo, useContext, createContext } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useStore } from './store/useStore';
 import pkg from '../../../package.json';
 import IconButton from '@mui/material/IconButton';
 import Box from '@mui/material/Box';
-import { useTheme, ThemeProvider, createTheme } from '@mui/material/styles';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 
@@ -110,7 +110,6 @@ const App = () => {
         <header
           className={styles.appHeader}
           style={{
-            // height: '100%'
             minHeight:
               ipcRenderer && pkg.env.VITRON_CUSTOM_TITLEBAR
                 ? 'calc(100vh - 30px)'
