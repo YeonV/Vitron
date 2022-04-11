@@ -52,11 +52,13 @@ jobs:
       matrix:
         node-version: [16.x]
 
-        # os: [macos-latest, ubuntu-latest, windows-latest]
-        os: [ubuntu-latest, windows-latest]
+        os: [macos-latest, ubuntu-latest, windows-latest]
+        # os: [ubuntu-latest, windows-latest]
         include:
-        # - os: macos-latest
-        #   OSNAME: mac.dmg
+        - os: macos-latest
+          OSNAME: mac.dmg
+          OSEND: AppImage
+          FILEPART: Installer
         - os: ubuntu-latest
           OSNAME: linux
           OSEND: AppImage
@@ -86,7 +88,7 @@ jobs:
         env:
           release_version: ${{ steps.package-version.outputs.current-version}}
           REACT_APP_VERSION: ${{ steps.package-version.outputs.current-version}}
-        run: GH_TOKEN=${{secrets.GH_TOKEN}} yarn dist
+        run: GH_TOKEN=${{secrets.GH_TOKEN}} yarn dist -p "never"
 
       - name: Build Win project
         if: matrix.OSNAME == 'win'
