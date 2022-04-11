@@ -91,7 +91,7 @@ jobs:
         env:
           release_version: ${{ steps.package-version.outputs.current-version}}
           REACT_APP_VERSION: ${{ steps.package-version.outputs.current-version}}
-        run: set GH_TOKEN=${{secrets.GH_TOKEN}} yarn dist
+        run: "set GH_TOKEN=${{secrets.GH_TOKEN}} yarn dist"
 
       - name: Upload Release Asset
         id: upload-release-asset
