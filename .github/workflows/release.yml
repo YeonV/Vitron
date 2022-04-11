@@ -56,8 +56,8 @@ jobs:
         # os: [ubuntu-latest, windows-latest]
         include:
         - os: macos-latest
-          OSNAME: mac.dmg
-          OSEND: AppImage
+          OSNAME: mac
+          OSEND: dmg
           FILEPART: Installer
         - os: ubuntu-latest
           OSNAME: linux
