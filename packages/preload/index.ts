@@ -15,7 +15,7 @@ const { appendLoading, removeLoading } = useLoading();
 
 window.addEventListener('DOMContentLoaded', () => {
   // Title bar implemenation
-  if (pkg.env.VITE_CUSTOM_TITLEBAR) {
+  if (pkg.env.VITRON_CUSTOM_TITLEBAR) {
     const darkmode = ipcRenderer.sendSync('get-darkmode');
     if (darkmode) {      
       new Titlebar({

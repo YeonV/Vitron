@@ -25,6 +25,7 @@
     "@mui/icons-material": "^5.5.1",
     "@mui/material": "^5.5.3",
     "custom-electron-titlebar": "^4.1.0",
+    "electron-devtools-installer": "^3.2.0",
     "electron-store": "^8.0.1",
     "immer": "^9.0.12",
     "zustand": "^3.7.2"
@@ -46,8 +47,8 @@
   },
   "env": {
     "VITE_DEV_SERVER_HOST": "127.0.0.1",
-    "VITE_DEV_SERVER_PORT": 7777,
-    "VITE_CUSTOM_TITLEBAR": true,
-    "REACT_DEV_SERVER_PORT": 3000
+    "VITE_DEV_SERVER_PORT": 3000,
+    "VITRON_CUSTOM_TITLEBAR": true,
+    "VITRON_TRAY": true
   }
 }

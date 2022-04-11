@@ -47,7 +47,7 @@ const App = () => {
     if (ipcRenderer) {
       ipcRenderer.sendSync('toggle-darkmode', 'try');
     } else {
-      setMode(mode === 'dark' ? 'light' : 'dark')
+      setMode(mode === 'dark' ? 'light' : 'dark');
     }
   };
 
@@ -68,7 +68,7 @@ const App = () => {
         setData(data.count);
       });
       async function getDarkMode() {
-        const dark = await ipcRenderer.sendSync('get-darkmode');        
+        const dark = await ipcRenderer.sendSync('get-darkmode');
         setDarkmode(dark);
         setMode(dark === 'yes' ? 'dark' : 'light');
       }
@@ -100,126 +100,128 @@ const App = () => {
 
   return (
     <ThemeProvider theme={theme}>
-    <Box 
-    sx={{
-      bgcolor: 'background.default',
-      color: 'text.primary',
-      overflowX: 'hidden'
-    }}className={styles.app}>
-      <header
-        className={styles.appHeader}
-        style={{
-          minHeight:
-            ipcRenderer && pkg.env.VITE_CUSTOM_TITLEBAR
-              ? 'calc(100vh - 30px)'
-              : '100vh',
-        }}>
-        <div className={styles.logos}>
-          {ipcRenderer && (
+      <Box
+        sx={{
+          bgcolor: 'background.default',
+          color: 'text.primary',
+          overflowX: 'hidden',
+        }}
+        className={styles.app}>
+        <header
+          className={styles.appHeader}
+          style={{
+            // height: '100%'
+            minHeight:
+              ipcRenderer && pkg.env.VITRON_CUSTOM_TITLEBAR
+                ? 'calc(100vh - 30px)'
+                : '100vh',
+          }}>
+          <div className={styles.logos}>
+            {ipcRenderer && (
+              <div className={styles.imgBox}>
+                <img
+                  src={electronImg}
+                  style={{ height: '24vw' }}
+                  className={styles.appLogo}
+                  alt='electron'
+                />
+              </div>
+            )}
+            <div className={styles.imgBox}>
+              <img src={vite} style={{ height: '19vw' }} alt='vite' />
+            </div>
             <div className={styles.imgBox}>
               <img
-                src={electronImg}
-                style={{ height: '24vw' }}
+                src={react}
+                style={{ maxWidth: '100%' }}
                 className={styles.appLogo}
-                alt='electron'
+                alt='logo'
               />
             </div>
-          )}
-          <div className={styles.imgBox}>
-            <img src={vite} style={{ height: '19vw' }} alt='vite' />
+            {!ipcRenderer && (
+              <div className={styles.imgBox}>
+                <img src={muiImg} style={{ height: '19vw' }} alt='vite' />
+              </div>
+            )}
           </div>
-          <div className={styles.imgBox}>
-            <img
-              src={react}
-              style={{ maxWidth: '100%' }}
-              className={styles.appLogo}
-              alt='logo'
-            />
-          </div>
-          {!ipcRenderer && (
-            <div className={styles.imgBox}>
-              <img src={muiImg} style={{ height: '19vw' }} alt='vite' />
+          <p>
+            {ipcRenderer && 'Electron + '}Vite + React
+            <br /> Typesscript + MUI + Zustand
+          </p>
+          {ipcRenderer && (
+            <div>
+              <p>Electron Store: {data}</p>
+              <p>
+                <Button
+                  size='small'
+                  variant='contained'
+                  onClick={() => setCount(data)}>
+                  Sync from store
+                </Button>{' '}
+                <Button
+                  size='small'
+                  variant='contained'
+                  onClick={() => onClickSetStore()}>
+                  Sync to store
+                </Button>
+              </p>
             </div>
           )}
-        </div>
-        <p>
-          {ipcRenderer && 'Electron + '}Vite + React
-          <br /> Typesscript + MUI + Zustand
-        </p>
-        {ipcRenderer && (
+          <p>React useState: {count}</p>
           <div>
-            <p>Electron Store: {data}</p>
             <p>
               <Button
-                size='small'
                 variant='contained'
-                onClick={() => setCount(data)}>
-                Sync from store
+                onClick={() => setCount((count: number) => count - 1)}>
+                - 1
               </Button>{' '}
               <Button
-                size='small'
                 variant='contained'
-                onClick={() => onClickSetStore()}>
-                Sync to store
+                onClick={() => setCount((count: number) => count + 1)}>
+                + 1
               </Button>
             </p>
           </div>
-        )}
-        <p>React useState: {count}</p>
-        <div>
-          <p>
-            <Button
-              variant='contained'
-              onClick={() => setCount((count: number) => count - 1)}>
-              - 1
-            </Button>{' '}
-            <Button
-              variant='contained'
-              onClick={() => setCount((count: number) => count + 1)}>
-              + 1
-            </Button>
-          </p>
-        </div>
-        <p>Zustand: {inner}</p>
-        <div>
-          <p>
-            <Button variant='contained' onClick={() => increase(-1)}>
-              - 1
-            </Button>{' '}
-            <Button variant='contained' onClick={() => increase(1)}>
-              + 1
-            </Button>
-          </p>
-        </div>
-        {ipcRenderer && (
+          <p>Zustand: {inner}</p>
           <div>
-            <p>IPC messaging</p>
-            <Button variant='contained' onClick={onClickWithIpc}>
-              send async
-            </Button>{' '}
-            <Button variant='contained' onClick={onClickWithIpcSync}>
-              send sync
-            </Button>
-            <p>{message}</p>
+            <p>
+              <Button variant='contained' onClick={() => increase(-1)}>
+                - 1
+              </Button>{' '}
+              <Button variant='contained' onClick={() => increase(1)}>
+                + 1
+              </Button>
+            </p>
           </div>
-        )}
-        <Box
-          sx={{
-            display: 'flex',
-            width: '100%',
-            alignItems: 'center',
-            justifyContent: 'center',
-            bgcolor: 'background.default',
-            color: 'text.primary',
-            borderRadius: 1,
-            p: 3,
-          }}>
-          <IconButton sx={{ ml: 1 }} onClick={toggleDarkmode} color='inherit'>
-            {darkmode === 'yes' ? <Brightness7Icon /> : <Brightness4Icon />}
-          </IconButton>
-        </Box>
-      </header>
-    </Box>
+          {ipcRenderer && (
+            <div>
+              <p>IPC messaging</p>
+              <Button variant='contained' onClick={onClickWithIpc}>
+                send async
+              </Button>{' '}
+              <Button variant='contained' onClick={onClickWithIpcSync}>
+                send sync
+              </Button>
+              <p>{message}</p>
+            </div>
+          )}
+          <Box
+            sx={{
+              display: 'flex',
+              width: '100%',
+              alignItems: 'center',
+              justifyContent: 'center',
+              bgcolor: 'background.default',
+              color: 'text.primary',
+              borderRadius: 1,
+              p: 3,
+            }}>
+            <IconButton sx={{ ml: 1 }} onClick={toggleDarkmode} color='inherit'>
+              {darkmode === 'yes' ? <Brightness7Icon /> : <Brightness4Icon />}
+            </IconButton>
+          </Box>
+        </header>
+      </Box>
     </ThemeProvider>
   );
 };

@@ -23,3 +23,6 @@ body {
 *::-webkit-scrollbar-button {
   display: none;
 }
+p {
+  margin: 0.5rem;
+}

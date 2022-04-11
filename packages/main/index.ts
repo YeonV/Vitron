@@ -1,9 +1,19 @@
-import { app, BrowserWindow, shell, ipcMain, nativeTheme  } from 'electron';
+import { app, BrowserWindow, shell, ipcMain, nativeTheme, Tray, Menu, Notification  } from 'electron';
 import { release } from 'os';
 import { join } from 'path';
 import Store from 'electron-store';
 import './samples/npm-esm-packages';
 import pkg from '../../package.json'
+
+
+// Conditionally include the dev tools installer to load React Dev Tools
+let installExtension:any, REACT_DEVELOPER_TOOLS:any, REDUX_DEVTOOLS:any; // NEW!
+if (!app.isPackaged) {
+    const devTools = require("electron-devtools-installer");
+    installExtension = devTools.default;
+    REACT_DEVELOPER_TOOLS = devTools.REACT_DEVELOPER_TOOLS;
+    REDUX_DEVTOOLS = devTools.REDUX_DEVTOOLS;
+}
 
 const { setupTitlebar, attachTitlebarToWindow } = require("custom-electron-titlebar/main");
 
@@ -21,17 +31,17 @@ if (!app.requestSingleInstanceLock()) {
 let win: BrowserWindow | null = null;
 
 const store = new Store();
-if (pkg.env.VITE_CUSTOM_TITLEBAR) setupTitlebar();
+if (pkg.env.VITRON_CUSTOM_TITLEBAR) setupTitlebar();
 
 async function createWindow() {
   win = new BrowserWindow({
     title: 'Vitron',
-    autoHideMenuBar: pkg.env.VITE_CUSTOM_TITLEBAR,
-    titleBarStyle: pkg.env.VITE_CUSTOM_TITLEBAR ? "hidden" : "default",
+    autoHideMenuBar: pkg.env.VITRON_CUSTOM_TITLEBAR,
+    titleBarStyle: pkg.env.VITRON_CUSTOM_TITLEBAR ? "hidden" : "default",
     x: 0,
     y: 0,
-    width: 960,
-    height: 960,
+    width: 600,
+    height: 800,
     webPreferences: {
       preload: join(__dirname, '../preload/index.cjs'),
     },
@@ -44,7 +54,7 @@ async function createWindow() {
     const url = `http://${process.env['VITE_DEV_SERVER_HOST']}:${process.env['VITE_DEV_SERVER_PORT']}`;
 
     win.loadURL(url);
-    win.webContents.openDevTools();
+    if (!app.isPackaged) win.webContents.openDevTools({mode: 'detach'});
   }
 
   // Test active push message to Renderer-process
@@ -58,10 +68,46 @@ async function createWindow() {
     return { action: 'deny' };
   });
 
-  if (pkg.env.VITE_CUSTOM_TITLEBAR) attachTitlebarToWindow(win);
+  if (pkg.env.VITRON_CUSTOM_TITLEBAR) attachTitlebarToWindow(win);
 }
 
-app.whenReady().then(createWindow);
+const NOTIFICATION_TITLE = 'Vitron - by Blade'
+const NOTIFICATION_BODY = 'Testing Notification from the Main process'
+
+function showNotification() {
+    new Notification({ title: NOTIFICATION_TITLE, body: NOTIFICATION_BODY }).show()
+}
+
+let tray = null
+
+app.whenReady().then(createWindow).then(async () => {
+  if (!app.isPackaged) {
+    await installExtension([REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS], { loadExtensionOptions: { allowFileAccess: true }, forceDownload: false })
+        .then((name:any) => console.log(`Added Extension:  ${name}`))
+        .catch((error:any) => console.log(`An error occurred: , ${error}`));
+  }
+  if (pkg.env.VITRON_TRAY) {
+    const icon = join(__dirname, '../../resources/icon.png')
+    tray = new Tray(icon)
+
+    const contextMenu = Menu.buildFromTemplate([
+      { label: 'Show', click: () => win?.show() },
+      { label: 'Minimize', click: () => win?.minimize() },
+      { label: 'Minimize to tray', click: () => win?.hide() },
+      { label: 'Test Notifiation', click: () => showNotification() },
+      { label: 'seperator', type: 'separator' },
+      { label: 'Dev', click: () => win?.webContents.openDevTools() },
+      { label: 'seperator', type: 'separator' },
+      { label: 'Restart Vitron', click: () => { app.relaunch(); app.exit() }},
+      { label: 'seperator', type: 'separator' },
+      { label: 'Exit', click: () => app.quit() }
+    ])
+    tray.setToolTip('Vitron by Blade')
+    tray.setContextMenu(contextMenu)
+    tray.setIgnoreDoubleClickEvents(true)
+    tray.on('click', (e) => win?.show())
+  }
+});
 
 app.on('window-all-closed', () => {
   win = null;
@@ -110,5 +156,5 @@ ipcMain.on('toggle-darkmode', (event) => {
   const res = nativeTheme.themeSource === 'system' ? (nativeTheme.shouldUseDarkColors ?  'light' : 'dark'): nativeTheme.themeSource === 'dark' ? 'light' : 'dark'; 
   event.returnValue = res === 'dark'
   nativeTheme.themeSource =  res
-  if (pkg.env.VITE_CUSTOM_TITLEBAR) win?.reload();
+  if (pkg.env.VITRON_CUSTOM_TITLEBAR) win?.reload();
 });
