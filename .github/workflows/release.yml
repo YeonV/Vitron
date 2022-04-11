@@ -80,14 +80,14 @@ jobs:
         run: yarn
 
       - name: Build Non-Win project
-        if: matrix.OSNAME != win
+        if: matrix.OSNAME != 'win'
         env:
           release_version: ${{ steps.package-version.outputs.current-version}}
           REACT_APP_VERSION: ${{ steps.package-version.outputs.current-version}}
         run: GH_TOKEN=${{secrets.GH_TOKEN}} yarn dist
 
       - name: Build Win project
-        if: matrix.OSNAME == win
+        if: matrix.OSNAME == 'win'
         env:
           release_version: ${{ steps.package-version.outputs.current-version}}
           REACT_APP_VERSION: ${{ steps.package-version.outputs.current-version}}
