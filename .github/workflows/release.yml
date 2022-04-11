@@ -57,7 +57,6 @@ jobs:
         include:
         # - os: macos-latest
         #   OSNAME: mac.dmg
-
         - os: ubuntu-latest
           OSNAME: linux
           OSEND: AppImage
