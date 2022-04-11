@@ -34,6 +34,15 @@
 - created proper Dark Mode, handling mui-Theme AND nativeTheme!<br /><span style="color:grey">(activate custom titlebar for awesome synergy)</span>
 
 - added scripts to start and build the inner react project isolated
+  
+## Git-Actions
+  
+- If your commit message starts with "Release " then win, mac & linux binaries will be created and a new release is made based on your version set inside package.json, and including all commit-messages from last release to this release are added as release-text: [like this](https://github.com/YeonV/Vitron/releases/tag/0.0.3)
+  
+- After push, the inner react app is available under your [repo's github-pages](https://yeonv.github.io/Vitron/)
+  
+- If your commit message startes with "dev:" then this message will be excluded for the next release-text
+  
 
 
 ## How To
