@@ -5,9 +5,39 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  create_release:
+    name: Create release
+    if: "startsWith(github.event.head_commit.message, 'Release')"
+    runs-on: ubuntu-latest
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+      current-version: ${{ steps.package-version.outputs.current-version }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: get-npm-version
+        id: package-version
+        uses: martinbeentjes/npm-get-version-action@master
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.package-version.outputs.current-version}}
+          release_name: Release ${{ steps.package-version.outputs.current-version}}
+          body: |
+            Vitron
+          # ${{ env.MESSAGES }}
+          draft: false
+          prerelease: false
+
+  build_release:
     name: Build & Release
     if: "startsWith(github.event.head_commit.message, 'Release')"
+    needs: create_release
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -26,26 +56,20 @@ jobs:
           OSNAME: win
           OSEND: exe
     steps:
-      #- name: Trigger external test
-      #  run: |
-      #    curl -XPOST -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ${{secrets.FRONTEND_TOKEN}}" https://api.github.com/repos/YeonV/LedFx-Builds/actions/workflows/build.yaml/dispatches --data '{"ref": "ref"}'
-
       - name: Checkout code
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: Get commit-messages
-        id: get_messages
-        run: |
-          git log --pretty=format:"+ %s" $(git describe --tags --abbrev=0 @^)..@ >> /tmp/messages.txt
-          cp /tmp/messages.txt .messages.md
-          cat /tmp/messages.txt
-          echo 'MESSAGES<<EOF' >> $GITHUB_ENV
-          printf '%b\n' "$(cat /tmp/messages.txt)" >> $GITHUB_ENV
-          echo EOF >> $GITHUB_ENV
-      - name: get-npm-version
-        id: package-version
-        uses: martinbeentjes/npm-get-version-action@master
+      # - name: Get commit-messages
+      #   id: get_messages
+      #   run: |
+      #     git log --pretty=format:"+ %s" $(git describe --tags --abbrev=0 @^)..@ >> /tmp/messages.txt
+      #     cp /tmp/messages.txt .messages.md
+      #     cat /tmp/messages.txt
+      #     echo 'MESSAGES<<EOF' >> $GITHUB_ENV
+      #     printf '%b\n' "$(cat /tmp/messages.txt)" >> $GITHUB_ENV
+      #     echo EOF >> $GITHUB_ENV
+
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
@@ -68,26 +92,26 @@ jobs:
       #     filename: "release.zip"
       #     path: "./release"
       #     exclusions: "*.git* /*node_modules/* .editorconfig"
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ steps.package-version.outputs.current-version}}
-          release_name: Release ${{ steps.package-version.outputs.current-version}}
-          body: |
-            Vitron
-            ${{ env.MESSAGES }}
-          draft: false
-          prerelease: false
+      # - name: Create Release
+      #   id: create_release
+      #   uses: actions/create-release@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     tag_name: ${{ steps.package-version.outputs.current-version}}
+      #     release_name: Release ${{ steps.package-version.outputs.current-version}}
+      #     body: |
+      #       Vitron
+      #     # ${{ env.MESSAGES }}
+      #     draft: false
+      #     prerelease: false
       - name: Upload Release Asset
         id: upload-release-asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          asset_path: ./release/${{ steps.package-version.outputs.current-version}}/Vitron-${{ steps.package-version.outputs.current-version}}-Installer.${{matrix.OSEND}}
-          asset_name: Vitron-${{ steps.package-version.outputs.current-version}}-Installer-${{matrix.OSNAME}}.${{matrix.OSEND}}
+          upload_url: ${{ needs.create_release.outputs.upload_url }}
+          asset_path: ./release/${{ needs.create_release.outputs.current-version}}/Vitron-${{ needs.create_release.outputs.current-version}}-Installer.${{matrix.OSEND}}
+          asset_name: Vitron-${{ needs.create_release.outputs.current-version}}-Installer-${{matrix.OSNAME}}.${{matrix.OSEND}}
           asset_content_type: application/${{matrix.OSEND}}
