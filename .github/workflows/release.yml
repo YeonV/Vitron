@@ -102,6 +102,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.create_release.outputs.upload_url }}
-          asset_path: ./release/${{ needs.create_release.outputs.current-version}}/Vitron-${{ needs.create_release.outputs.current-version}}-Installer.${{matrix.OSEND}}
+          asset_path: ./release/${{ needs.create_release.outputs.current-version}}/Vitron-${{ needs.create_release.outputs.current-version}}-${{matrix.FILEPART}}.${{matrix.OSEND}}
           asset_name: Vitron-${{ needs.create_release.outputs.current-version}}-${{matrix.FILEPART}}-${{matrix.OSNAME}}.${{matrix.OSEND}}
           asset_content_type: application/${{matrix.OSEND}}
