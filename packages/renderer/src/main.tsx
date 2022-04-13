@@ -1,19 +1,21 @@
-import { StrictMode, useState, useMemo } from 'react';
-import { render } from 'react-dom';
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client'
 import { ThemeProvider  } from '@mui/material/styles';
 import App from './App';
 import './styles/index.css';
 import theme from './theme';
 
-render(
+const root = createRoot(document.getElementById('root')!)
+
+root.render(
   <StrictMode>
     <ThemeProvider theme={theme}>
       <App />
     </ThemeProvider>
-  </StrictMode>,
-  document.getElementById('root'),
-  window.removeLoading
+  </StrictMode>
 );
+
+window.removeLoading()
 
 // console.log('fs', window.fs);
 // console.log('ipcRenderer', window.ipcRenderer);
