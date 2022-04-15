@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { ThemeProvider  } from '@mui/material/styles';
 import App from './App';
 import './styles/index.css';
-import theme from './theme';
+import theme from './styles/theme';
 
 const root = createRoot(document.getElementById('root')!)
 
