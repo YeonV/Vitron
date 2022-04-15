@@ -19,10 +19,11 @@ const App = () => {
   const [count, setCount] = useState(0);
   const [message, setMessage] = useState('no ipc message');
   const [data, setData] = useState(0);
-  const [mode, setMode] = useState<'light' | 'dark'>('light');
-  const [darkmode, setDarkmode] = useState('');
+  const [darkmode, setDarkMode] = useState(false);
+
   const inner = useStore((state) => state.outer.inner);
   const increase = useStore((state) => state.increase);
+  
   const onClickSetStore = () => {
     ipcRenderer.send('set', ['count', count]);
     onClickGetStore();
@@ -47,7 +48,7 @@ const App = () => {
     if (ipcRenderer) {
       ipcRenderer.sendSync('toggle-darkmode', 'try');
     } else {
-      setMode(mode === 'dark' ? 'light' : 'dark');
+      setDarkMode(!darkmode);
     }
   };
 
@@ -69,8 +70,7 @@ const App = () => {
       });
       async function getDarkMode() {
         const dark = await ipcRenderer.sendSync('get-darkmode');
-        setDarkmode(dark);
-        setMode(dark === 'yes' ? 'dark' : 'light');
+        setDarkMode(dark === 'yes');
       }
       getDarkMode();
     }
@@ -92,10 +92,10 @@ const App = () => {
     () =>
       createTheme({
         palette: {
-          mode,
+          mode: darkmode ? 'dark' : 'light'
         },
       }),
-    [mode]
+    [darkmode]
   );
 
   return (
@@ -216,7 +216,7 @@ const App = () => {
               p: 3,
             }}>
             <IconButton sx={{ ml: 1 }} onClick={toggleDarkmode} color='inherit'>
-              {darkmode === 'yes' ? <Brightness7Icon /> : <Brightness4Icon />}
+              {darkmode ? <Brightness7Icon /> : <Brightness4Icon />}
             </IconButton>
           </Box>
         </header>
