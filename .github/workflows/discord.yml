@@ -14,4 +14,30 @@ jobs:
       uses: Ilshidur/action-discord@0.3.2
       env:
         DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-        
+  app:    
+    name: onAppRelease
+    if: "startsWith(github.event.head_commit.message, 'Release')" 
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Get commit-messages
+      id: get_messages
+      run: |
+        git log --pretty=format:"+ %s" $(git describe --tags --abbrev=0 @^)..@ >> /tmp/messages.txt
+        cp /tmp/messages.txt .messages.md
+        cat /tmp/messages.txt
+        echo 'MESSAGES<<EOF' >> $GITHUB_ENV
+        printf '%b\n' "$(cat /tmp/messages.txt)" >> $GITHUB_ENV
+        echo EOF >> $GITHUB_ENV
+    - name: Send Discord-Message
+      uses: Ilshidur/action-discord@0.3.2
+      env:
+        DISCORD_WEBHOOK: ${{ secrets.DISCORD_RELEASE_WEBHOOK }}
+      with:
+        args: |
+          {{ EVENT_PAYLOAD.repository.full_name }}
+          ${{ env.MESSAGES }}
+          
