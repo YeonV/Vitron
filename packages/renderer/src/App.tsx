@@ -19,11 +19,15 @@ const App = () => {
   const [count, setCount] = useState(0);
   const [message, setMessage] = useState('no ipc message');
   const [data, setData] = useState(0);
-  const [darkmode, setDarkMode] = useState(false);
 
-  const inner = useStore((state) => state.outer.inner);
-  const increase = useStore((state) => state.increase);
-  
+
+
+  const { darkMode, setDarkMode } = useStore();
+
+  const bears = useStore((state) => state.animals.bears);
+
+  const { increase } = useStore();
+
   const onClickSetStore = () => {
     ipcRenderer.send('set', ['count', count]);
     onClickGetStore();
@@ -48,7 +52,7 @@ const App = () => {
     if (ipcRenderer) {
       ipcRenderer.sendSync('toggle-darkmode', 'try');
     } else {
-      setDarkMode(!darkmode);
+      setDarkMode(!darkMode);
     }
   };
 
@@ -91,11 +95,19 @@ const App = () => {
   const theme = useMemo(
     () =>
       createTheme({
+        components: {
+          MuiButton: {
+            defaultProps: {
+              variant: 'contained',
+              size: 'small',
+            },
+          },
+        },
         palette: {
-          mode: darkmode ? 'dark' : 'light'
+          mode: darkMode ? 'dark' : 'light',
         },
       }),
-    [darkmode]
+    [darkMode]
   );
 
   return (
@@ -151,56 +163,34 @@ const App = () => {
             <div>
               <p>Electron Store: {data}</p>
               <p>
-                <Button
-                  size='small'
-                  variant='contained'
-                  onClick={() => setCount(data)}>
-                  Sync from store
-                </Button>{' '}
-                <Button
-                  size='small'
-                  variant='contained'
-                  onClick={() => onClickSetStore()}>
-                  Sync to store
-                </Button>
+                <Button onClick={() => setCount(data)}>Sync from store</Button>{' '}
+                <Button onClick={() => onClickSetStore()}>Sync to store</Button>
               </p>
             </div>
           )}
           <p>React useState: {count}</p>
           <div>
             <p>
-              <Button
-                variant='contained'
-                onClick={() => setCount((count: number) => count - 1)}>
+              <Button onClick={() => setCount((count: number) => count - 1)}>
                 - 1
               </Button>{' '}
-              <Button
-                variant='contained'
-                onClick={() => setCount((count: number) => count + 1)}>
+              <Button onClick={() => setCount((count: number) => count + 1)}>
                 + 1
               </Button>
             </p>
           </div>
-          <p>Zustand: {inner}</p>
+          <p>Zustand: {bears}</p>
           <div>
             <p>
-              <Button variant='contained' onClick={() => increase(-1)}>
-                - 1
-              </Button>{' '}
-              <Button variant='contained' onClick={() => increase(1)}>
-                + 1
-              </Button>
+              <Button onClick={() => increase(-1)}>- 1</Button>{' '}
+              <Button onClick={() => increase(1)}>+ 1</Button>
             </p>
           </div>
           {ipcRenderer && (
             <div>
               <p>IPC messaging</p>
-              <Button variant='contained' onClick={onClickWithIpc}>
-                send async
-              </Button>{' '}
-              <Button variant='contained' onClick={onClickWithIpcSync}>
-                send sync
-              </Button>
+              <Button onClick={onClickWithIpc}>send async</Button>{' '}
+              <Button onClick={onClickWithIpcSync}>send sync</Button>
               <p>{message}</p>
             </div>
           )}
@@ -216,7 +206,7 @@ const App = () => {
               p: 3,
             }}>
             <IconButton sx={{ ml: 1 }} onClick={toggleDarkmode} color='inherit'>
-              {darkmode ? <Brightness7Icon /> : <Brightness4Icon />}
+              {darkMode ? <Brightness7Icon /> : <Brightness4Icon />}
             </IconButton>
           </Box>
         </header>
