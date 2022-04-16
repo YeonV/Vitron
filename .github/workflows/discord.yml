@@ -1,0 +1,17 @@
+name: Send Discord Message
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  commit:
+    name: OnCommit
+    runs-on: ubuntu-latest    
+    steps:
+    - name: Send Discord-Message
+      uses: Ilshidur/action-discord@0.3.2
+      env:
+        DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        
