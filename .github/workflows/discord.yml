@@ -8,7 +8,7 @@ on:
 jobs:
   commit:
     name: OnCommit    
-    if:  ${{ secrets.DISCORD_WEBHOOK }} != null 
+    if:  "${{ secrets.DISCORD_WEBHOOK }} != null"
     runs-on: ubuntu-latest    
     steps:
     - name: Send Discord-Message
