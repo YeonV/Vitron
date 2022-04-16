@@ -70,5 +70,7 @@ yarn dist
 ```
 
 ---
+ [![image](https://user-images.githubusercontent.com/28861537/163693418-8253501c-aabf-448f-8362-47d461dc82a6.png)](https://discord.com/invite/TGnJrrgQ)
+---
 
 [![creator](https://img.shields.io/badge/CREATOR-Yeon-blue.svg?logo=github&logoColor=white)](https://github.com/YeonV) [![creator](https://img.shields.io/badge/A.K.A-Blade-darkred.svg?logo=github&logoColor=white)](https://github.com/YeonV)
