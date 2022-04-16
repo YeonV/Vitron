@@ -8,20 +8,16 @@ on:
 jobs:
   commit:
     name: OnCommit
-    env:
-      discord: ${{ secrets.DISCORD_WEBHOOK }}
-    if: env.discord != null
     runs-on: ubuntu-latest    
     steps:
     - name: Send Discord-Message
       uses: Ilshidur/action-discord@0.3.2
+      if: env.DISCORD_WEBHOOK != null
       env:
         DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
   app:    
     name: onAppRelease
-    env:
-      discord: ${{ secrets.DISCORD_RELEASE_WEBHOOK }}
-    if: "startsWith(github.event.head_commit.message, 'Release') || env.discord != null" 
+    if: "startsWith(github.event.head_commit.message, 'Release')" 
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
@@ -38,7 +34,8 @@ jobs:
         printf '%b\n' "$(cat /tmp/messages.txt)" >> $GITHUB_ENV
         echo EOF >> $GITHUB_ENV
     - name: Send Discord-Message
-      uses: Ilshidur/action-discord@0.3.2
+      uses: Ilshidur/action-discord@0.3.2      
+      if: env.DISCORD_RELEASE_WEBHOOK != null
       env:
         DISCORD_WEBHOOK: ${{ secrets.DISCORD_RELEASE_WEBHOOK }}
       with:
@@ -54,6 +51,7 @@ jobs:
     runs-on: ubuntu-latest    
     steps:
     - name: Send Discord-Message
+      if: env.DISCORD_RELEASE_WEBHOOK != null
       uses: Ilshidur/action-discord@0.3.2
       env:
         DISCORD_WEBHOOK: ${{ secrets.DISCORD_RELEASE_WEBHOOK }}
