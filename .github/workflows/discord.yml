@@ -7,7 +7,8 @@ on:
 
 jobs:
   commit:
-    name: OnCommit
+    name: OnCommit    
+    if:  ${{ secrets.DISCORD_WEBHOOK }} != null 
     runs-on: ubuntu-latest    
     steps:
     - name: Send Discord-Message
@@ -16,7 +17,7 @@ jobs:
         DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
   app:    
     name: onAppRelease
-    if: "startsWith(github.event.head_commit.message, 'Release')" 
+    if: "startsWith(github.event.head_commit.message, 'Release') || ${{ secrets.DISCORD_RELEASE_WEBHOOK }} != null " 
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
@@ -43,7 +44,7 @@ jobs:
           
   web:
     name: OnWebRelease    
-    if: "startsWith(github.event.head_commit.message, 'web:')" 
+    if: "startsWith(github.event.head_commit.message, 'web:') || ${{ secrets.DISCORD_RELEASE_WEBHOOK }} != null " 
     runs-on: ubuntu-latest    
     steps:
     - name: Send Discord-Message
