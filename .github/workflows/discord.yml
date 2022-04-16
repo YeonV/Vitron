@@ -41,3 +41,16 @@ jobs:
           {{ EVENT_PAYLOAD.repository.full_name }}
           ${{ env.MESSAGES }}
           
+  web:
+    name: OnWebRelease    
+    if: "startsWith(github.event.head_commit.message, 'web:')" 
+    runs-on: ubuntu-latest    
+    steps:
+    - name: Send Discord-Message
+      uses: Ilshidur/action-discord@0.3.2
+      env:
+        DISCORD_WEBHOOK: ${{ secrets.DISCORD_RELEASE_WEBHOOK }}
+      with:
+        args: |
+          [New Web Release](https://yeonv.github.io/Vitron/)
+          https://yeonv.github.io/Vitron/
