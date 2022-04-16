@@ -38,7 +38,7 @@ jobs:
         DISCORD_WEBHOOK: ${{ secrets.DISCORD_RELEASE_WEBHOOK }}
       with:
         args: |
-          {{ EVENT_PAYLOAD.repository.full_name }}
+          [{{ EVENT_PAYLOAD.repository.full_name }}](https://github.com/YeonV/Vitron/releases/latest)
           ${{ env.MESSAGES }}
           
   web:
@@ -53,4 +53,3 @@ jobs:
       with:
         args: |
           [New Web Release](https://yeonv.github.io/Vitron/)
-          https://yeonv.github.io/Vitron/
