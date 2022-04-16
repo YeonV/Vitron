@@ -45,9 +45,7 @@ jobs:
           
   web:
     name: OnWebRelease
-    env:
-      discord: ${{ secrets.DISCORD_RELEASE_WEBHOOK }}
-    if: "startsWith(github.event.head_commit.message, 'web:') || env.discord != null" 
+    if: "startsWith(github.event.head_commit.message, 'web:')" 
     runs-on: ubuntu-latest    
     steps:
     - name: Send Discord-Message
