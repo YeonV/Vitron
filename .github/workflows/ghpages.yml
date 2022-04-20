@@ -31,9 +31,6 @@ jobs:
       with:
         name: production-files
         path: ./dist/renderer
-        
-
-    
   
   deploy:
     name: Deploy
@@ -52,8 +49,7 @@ jobs:
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./dist/renderer
-        
+        publish_dir: ./dist/renderer        
         
     - name: Send Discord-Message
       uses: Ilshidur/action-discord@0.3.2
