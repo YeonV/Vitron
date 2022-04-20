@@ -16,18 +16,17 @@ import Brightness7Icon from '@mui/icons-material/Brightness7';
 const ipcRenderer = window.ipcRenderer || false;
 
 const App = () => {
+  // React's useState
   const [count, setCount] = useState(0);
   const [message, setMessage] = useState('no ipc message');
   const [data, setData] = useState(0);
 
+  // Zustand-Store
+  const { darkMode, setDarkMode } = useStore((state) => state.ui);
+  const bears = useStore((state) => state.example.animals.bears);
+  const increase = useStore((state) => state.example.increase);
 
-
-  const { darkMode, setDarkMode } = useStore();
-
-  const bears = useStore((state) => state.animals.bears);
-
-  const { increase } = useStore();
-
+  // Electron-Store
   const onClickSetStore = () => {
     ipcRenderer.send('set', ['count', count]);
     onClickGetStore();
@@ -36,10 +35,10 @@ const App = () => {
     ipcRenderer.send('get');
   };
 
+  // IPC Example
   const onClickWithIpc = () => {
     ipcRenderer.send('ping-pong', 'some data from ipcRenderer');
   };
-
   const onClickWithIpcSync = () => {
     const message = ipcRenderer.sendSync(
       'ping-pong-sync',
@@ -48,6 +47,7 @@ const App = () => {
     setMessage(message);
   };
 
+  // DarkMode mui & nativeTheme
   const toggleDarkmode = () => {
     if (ipcRenderer) {
       ipcRenderer.sendSync('toggle-darkmode', 'try');
@@ -56,6 +56,7 @@ const App = () => {
     }
   };
 
+  // set React-state from Electron-Store 
   useEffect(() => {
     if (ipcRenderer) {
       if (data) {
@@ -64,6 +65,7 @@ const App = () => {
     }
   }, [data]);
 
+  // IPC init
   useEffect(() => {
     if (ipcRenderer) {
       ipcRenderer.on('ping-pong', (event: any, data: any) => {

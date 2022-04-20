@@ -1,9 +1,6 @@
-// import produce from 'immer'
+import produce from 'immer'
 
-export const storeUI = { 
+export const storeUI = (set:any) => ({
   darkMode: false,
-}
-
-export const storeUIActions = (set:any) => ({
-  setDarkMode: (dark: boolean):void => set((state:any) => ({ darkMode: dark }), false, "ui/darkmode"),    
+  setDarkMode: (dark: boolean):void => set(produce((state:any) => { state.ui.darkMode = dark }), false, "ui/darkmode"),    
 })

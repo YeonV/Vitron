@@ -2,7 +2,7 @@
   "name": "vitron",
   "productName": "Vitron",
   "private": true,
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Supercharged Starter",
   "author": "Yeon a.k.a Blade <dev@yeonv.com>",
   "repository": {
@@ -22,8 +22,8 @@
   "dependencies": {
     "@emotion/react": "^11.8.2",
     "@emotion/styled": "^11.8.1",
-    "@mui/icons-material": "^5.6.1",
-    "@mui/material": "^5.6.1",
+    "@mui/icons-material": "^5.6.2",
+    "@mui/material": "^5.6.2",
     "custom-electron-titlebar": "^4.1.0",
     "electron-devtools-installer": "^3.2.0",
     "electron-store": "^8.0.1",
@@ -39,7 +39,7 @@
     "execa": "^6.1.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "sass": "^1.49.9",
+    "sass": "^1.50.1",
     "typescript": "^4.6.2",
     "vite": "^2.9.5",
     "vite-plugin-esmodule": "^1.2.5",
