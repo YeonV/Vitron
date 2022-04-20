@@ -34,14 +34,17 @@ const store = new Store();
 if (pkg.env.VITRON_CUSTOM_TITLEBAR) setupTitlebar();
 
 async function createWindow() {
+  let windowState: any = await store.get("windowState")
+  if (!pkg.env.VITRON_SAVE_WINDOWSIZE) windowState = null
   win = new BrowserWindow({
     title: 'Vitron',
+    show: false,
     autoHideMenuBar: pkg.env.VITRON_CUSTOM_TITLEBAR,
     titleBarStyle: pkg.env.VITRON_CUSTOM_TITLEBAR ? "hidden" : "default",
-    x: 0,
-    y: 0,
-    width: 600,
-    height: 800,
+    x: windowState?.x || 0,
+    y: windowState?.y || 0,
+    width: windowState?.width || 600,
+    height: windowState?.height || 800,
     webPreferences: {
       preload: join(__dirname, '../preload/index.cjs'),
     },
@@ -66,6 +69,15 @@ async function createWindow() {
   win.webContents.setWindowOpenHandler(({ url }) => {
     if (url.startsWith('https:')) shell.openExternal(url);
     return { action: 'deny' };
+  });
+
+  win.on('close', () => {
+    const windowState = win?.getBounds()
+    if (pkg.env.VITRON_SAVE_WINDOWSIZE) store.set("windowState", windowState);
+  });
+
+  win.once('ready-to-show', () => {
+    win?.show();
   });
 
   if (pkg.env.VITRON_CUSTOM_TITLEBAR) attachTitlebarToWindow(win);
