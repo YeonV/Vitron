@@ -44,7 +44,7 @@ async function createWindow() {
     x: windowState?.x || 0,
     y: windowState?.y || 0,
     width: windowState?.width || 600,
-    height: windowState?.height || 800,
+    height: windowState?.height || 850,
     webPreferences: {
       preload: join(__dirname, '../preload/index.cjs'),
     },

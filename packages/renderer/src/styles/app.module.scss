@@ -14,12 +14,11 @@
       display: flex;
       box-sizing: border-box;
       align-items: center;
+      justify-content: center;
       padding: 0 5vw;
       width: 100%;
 
       .imgBox {
-        width: 33.33%;
-
         .appLogo {
           pointer-events: none;
         }
