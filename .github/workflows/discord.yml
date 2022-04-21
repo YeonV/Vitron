@@ -35,7 +35,7 @@ jobs:
         echo EOF >> $GITHUB_ENV
     - name: Send Discord-Message
       uses: Ilshidur/action-discord@0.3.2      
-      if: env.DISCORD_RELEASE_WEBHOOK != null
+      if: env.DISCORD_WEBHOOK != null
       env:
         DISCORD_WEBHOOK: ${{ secrets.DISCORD_RELEASE_WEBHOOK }}
       with:
@@ -49,7 +49,7 @@ jobs:
     runs-on: ubuntu-latest    
     steps:
     - name: Send Discord-Message
-      if: env.DISCORD_RELEASE_WEBHOOK != null
+      if: env.DISCORD_WEBHOOK != null
       uses: Ilshidur/action-discord@0.3.2
       env:
         DISCORD_WEBHOOK: ${{ secrets.DISCORD_RELEASE_WEBHOOK }}
