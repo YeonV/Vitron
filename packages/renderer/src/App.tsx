@@ -5,6 +5,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { HashRouter, Routes, Route } from "react-router-dom";
 import Zustand from './pages/example/Zustand';
 import Info from './pages/example/Info';
+import pkg from '../../../package.json';
 
 const App = () => {
   const darkMode = useStore((state) => state.ui.darkMode);
@@ -30,6 +31,9 @@ const App = () => {
           },
         },
         palette: {
+          primary: {
+            main: pkg.env.VITRON_PRIMARY_COLOR === 'default' ? '#1976d2' : pkg.env.VITRON_PRIMARY_COLOR
+          },
           mode: darkMode ? 'dark' : 'light',
         },
       }),

@@ -2,7 +2,7 @@
   "name": "vitron",
   "productName": "Vitron",
   "private": true,
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Supercharged Starter",
   "author": "Yeon a.k.a Blade <dev@yeonv.com>",
   "repository": {
@@ -29,11 +29,14 @@
     "electron-store": "^8.0.1",
     "immer": "^9.0.14",
     "react-router-dom": "6",
+    "reactour": "^1.18.7",
+    "styled-components": "5.3.5",
     "zustand": "^4.0.0-rc.1"
   },
   "devDependencies": {
     "@types/react": "^18.0.9",
     "@types/react-dom": "^18.0.5",
+    "@types/reactour": "^1.18.2",
     "@vitejs/plugin-react": "^1.3.2",
     "electron": "^19.0.0",
     "electron-builder": "^23.0.3",
@@ -49,6 +52,8 @@
   "env": {
     "VITE_DEV_SERVER_HOST": "127.0.0.1",
     "VITE_DEV_SERVER_PORT": 3000,
+    "VITRON_TOURS": true,
+    "VITRON_PRIMARY_COLOR": "default",
     "VITRON_CUSTOM_TITLEBAR": true,
     "VITRON_SAVE_WINDOWSIZE": true,
     "VITRON_TRAY": true

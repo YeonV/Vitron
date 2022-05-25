@@ -14,6 +14,7 @@ import { Avatar, Button, Paper, Typography, Box, Chip } from '@mui/material';
 import { useStore } from '../../store/useStore';
 import { Link as RouterLink } from 'react-router-dom';
 import { InfoOutlined, Brightness4, Brightness7 } from '@mui/icons-material';
+import HomeTour from '@/docs/HomeTour';
 
 const ipcRenderer = window.ipcRenderer || false;
 
@@ -217,12 +218,13 @@ const Example = () => {
             sx={{ mr: 1, width: '250px', whiteSpace: 'nowrap' }}>
             Extras
           </Button>
-          <Button size={'large'} sx={{ width: 100 }} onClick={toggleDarkmode}>
+          <Button size={'large'} sx={{ width: 60 }} onClick={toggleDarkmode}>
             {darkMode ? <Brightness7 /> : <Brightness4 />}
           </Button>{' '}
-          <Button size={'large'} sx={{ width: 100 }} component={RouterLink} to={"info"}>
+          <Button size={'large'} sx={{ width: 60 }} component={RouterLink} to={"info"}>
             <InfoOutlined />
-          </Button>
+          </Button>{' '}
+          {pkg.env.VITRON_TOURS && <HomeTour sx={{ width: 60 }} />}
         </Paper>
 
         {ipcRenderer && (
@@ -230,6 +232,7 @@ const Example = () => {
             <Typography color={'textSecondary'}>{message}</Typography>
           </Paper>
         )}
+        
       </header>
     </Box>
   );

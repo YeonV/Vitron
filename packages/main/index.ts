@@ -90,7 +90,7 @@ function showNotification() {
     new Notification({ title: NOTIFICATION_TITLE, body: NOTIFICATION_BODY }).show()
 }
 
-let tray = null
+let tray = null as any
 
 app.whenReady().then(createWindow).then(async () => {
   if (!app.isPackaged) {
@@ -98,7 +98,7 @@ app.whenReady().then(createWindow).then(async () => {
         .then((name:any) => console.log(`Added Extension:  ${name}`))
         .catch((error:any) => console.log(`An error occurred: , ${error}`));
   }
-  if (pkg.env.VITRON_TRAY) {
+  if (pkg.env.VITRON_TRAY && tray === null) {
     const icon = join(__dirname, '../../resources/icon.png')
     tray = new Tray(icon)
 
@@ -117,12 +117,13 @@ app.whenReady().then(createWindow).then(async () => {
     tray.setToolTip('Vitron by Blade')
     tray.setContextMenu(contextMenu)
     tray.setIgnoreDoubleClickEvents(true)
-    tray.on('click', (e) => win?.show())
+    tray.on('click', () => win?.show())
   }
 });
 
 app.on('window-all-closed', () => {
-  win = null;
+  win = null;      
+  if (tray !== null) tray.destroy();
   if (process.platform !== 'darwin') app.quit();
 });
 
