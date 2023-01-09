@@ -1,5 +1,10 @@
 {
-    "recommendations": [
-        "mrmlnc.vscode-json5"
-    ]
+  "recommendations": [
+    "mrmlnc.vscode-json5",
+    "dbaeumer.vscode-eslint",
+    "dsznajder.es7-react-js-snippets",
+    "github.vscode-pull-request-github",
+    "ms-vscode.vscode-typescript-next",
+    "rvest.vs-code-prettier-eslint"
+  ]
 }
