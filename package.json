@@ -1,8 +1,8 @@
 {
   "name": "vitron",
   "productName": "Vitron",
-  "private": true,
-  "version": "0.0.8",
+  "private": false,
+  "version": "0.0.9",
   "description": "Supercharged Starter",
   "author": "Yeon a.k.a Blade <dev@yeonv.com>",
   "repository": {

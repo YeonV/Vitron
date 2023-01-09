@@ -6,6 +6,7 @@ import Store from 'electron-store'
 import './samples/npm-esm-packages'
 import pkg from '../../package.json'
 
+process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
 
 // Conditionally include the dev tools installer to load React Dev Tools
 let installExtension:any, REACT_DEVELOPER_TOOLS:any, REDUX_DEVTOOLS:any // NEW!
@@ -48,6 +49,7 @@ async function createWindow() {
 		height: windowState?.height || 850,
 		webPreferences: {
 			preload: join(__dirname, '../preload/index.cjs'),
+			nodeIntegration: true
 		},
 	})
 

@@ -17,13 +17,11 @@ window.addEventListener('DOMContentLoaded', () => {
 	// Title bar implemenation
 	if (pkg.env.VITRON_CUSTOM_TITLEBAR) {
 		const darkmode = ipcRenderer.sendSync('get-darkmode')
-		if (darkmode) {      
-			new Titlebar({
-				backgroundColor: Color.fromHex(
-					darkmode === 'yes' ? '#202124' : '#eeeeee'
-				),
-			})
-		}
+		new Titlebar({
+			backgroundColor: Color.fromHex(
+				darkmode === 'yes' ? '#202124' : '#eeeeee'
+			),
+		})
 	}
 })
 
