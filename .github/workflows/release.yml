@@ -81,7 +81,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Install Node Modules
-        run: yarn
+        run: yarn --network-timeout 100000
 
       - name: Build Non-Win project
         if: matrix.OSNAME != 'win'
