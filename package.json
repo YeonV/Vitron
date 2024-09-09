@@ -1,5 +1,5 @@
 {
-  "name": "vitron-refactor",
+  "name": "vitron",
   "productName": "Vitron",
   "version": "0.1.0",
   "description": "An Electron application with React and TypeScript",
