@@ -50,24 +50,24 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [20.x]
 
         os: [macos-latest, ubuntu-latest, windows-latest]
         # os: [ubuntu-latest, windows-latest]
         include:
-        - os: macos-latest
-          OSNAME: mac
-          OSEND: dmg
-          FILEPART: Installer
-        - os: ubuntu-latest
-          OSNAME: linux
-          OSEND: AppImage
-          FILEPART: Installer
+          - os: macos-latest
+            OSNAME: mac
+            OSEND: dmg
+            FILEPART: Installer
+          - os: ubuntu-latest
+            OSNAME: linux
+            OSEND: AppImage
+            FILEPART: Installer
 
-        - os: windows-latest
-          OSNAME: win
-          OSEND: exe
-          FILEPART: Setup
+          - os: windows-latest
+            OSNAME: win
+            OSEND: exe
+            FILEPART: Setup
 
     steps:
       - name: Checkout code
