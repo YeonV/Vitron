@@ -1,0 +1,28 @@
+.app {
+  text-align: center;
+}
+.app .appHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+}
+.app .appHeader .logos {
+  display: flex;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5vw;
+  width: 100%;
+}
+.app .appHeader .logos .imgBox .appLogo {
+  pointer-events: none;
+}
+.app .appHeader button {
+  font-size: calc(10px + 1vmin);
+}
+.app .appHeader .staticPublic {
+  display: flex;
+  align-items: center;
+}
