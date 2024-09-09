@@ -2,7 +2,7 @@
  * @see https://www.electron.build/configuration/configuration
  */
 module.exports = {
-  appId: 'Vitron',
+  appId: 'com.vitron.app',
   productName: 'Vitron',
   copyright: 'Copyright © 2022 ${author}',
   asar: true,
