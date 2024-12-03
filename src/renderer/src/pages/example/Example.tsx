@@ -70,10 +70,10 @@ const Example = () => {
   // IPC init
   useEffect(() => {
     if (ipcRenderer) {
-      ipcRenderer.on('ping-pong', (event: any, data: any) => {
+      ipcRenderer.on('ping-pong', (_event: any, data: any) => {
         setMessage(data)
       })
-      ipcRenderer.on('get', (event: any, data: any) => {
+      ipcRenderer.on('get', (_event: any, data: any) => {
         setData(data.count)
       })
       // eslint-disable-next-line no-inner-declarations
