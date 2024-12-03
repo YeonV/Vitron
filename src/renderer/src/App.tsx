@@ -6,6 +6,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles'
 import { HashRouter, Routes, Route } from 'react-router-dom'
 import Info from './pages/example/Info'
 import pkg from '../../../package.json'
+import './styles/index.css'
 
 const App = () => {
   const darkMode = useStore((state) => state.ui.darkMode)

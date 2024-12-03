@@ -2,8 +2,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { produce } from 'immer'
 
-export const storeTours = (set: any) => ({
-  home: false,
+export const storeTours = {
+  home: false
+}
+
+export const storeToursActions = (set: any) => ({
   setTour: (tour: string, open: boolean): void =>
     set(
       produce((state: any) => {

@@ -2,10 +2,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { produce } from 'immer'
 
-export const storeBears = (set: any) => ({
+export const storeBears = {
   animals: {
     bears: 1
-  },
+  }
+}
+
+export const storeBearsActions = (set: any) => ({
   increase: (by: number): void =>
     set(
       produce((state: any) => {

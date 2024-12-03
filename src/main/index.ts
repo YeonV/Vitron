@@ -172,5 +172,5 @@ ipcMain.on('toggle-darkmode', (event) => {
         : 'dark'
   event.returnValue = res === 'dark'
   nativeTheme.themeSource = res
-  if (pkg.env.VITRON_CUSTOM_TITLEBAR) mainWindow?.reload()
+  mainWindow?.reload()
 })

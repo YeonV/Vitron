@@ -2,8 +2,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { produce } from 'immer'
 
-export const storeUI = (set: any) => ({
-  darkMode: false,
+export const storeUI = {
+  darkMode: false
+}
+
+export const storeUIActions = (set: any) => ({
   setDarkMode: (dark: boolean): void =>
     set(
       produce((state: any) => {

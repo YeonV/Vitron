@@ -18,7 +18,7 @@ import { Link as RouterLink } from 'react-router-dom'
 import { InfoOutlined, Brightness4, Brightness7 } from '@mui/icons-material'
 // import HomeTour from '@/docs/HomeTour';
 
-const ipcRenderer = (window as any).ipcRenderer || false
+const ipcRenderer = (window as any).electron.ipcRenderer || false
 
 const Example = () => {
   // React's useState
@@ -27,9 +27,10 @@ const Example = () => {
   const [data, setData] = useState(0)
 
   // Zustand-Store
-  const { darkMode, setDarkMode } = useStore((state) => state.ui)
+  const darkMode = useStore((state) => state.ui.darkMode)
+  const setDarkMode = useStore((state) => state.setDarkMode)
   const bears = useStore((state) => state.example.animals.bears)
-  const increase = useStore((state) => state.example.increase)
+  const increase = useStore((state) => state.increase)
 
   // Electron-Store
   const onClickSetStore = () => {
@@ -53,9 +54,8 @@ const Example = () => {
   const toggleDarkmode = () => {
     if (ipcRenderer) {
       ipcRenderer.sendSync('toggle-darkmode', 'try')
-    } else {
-      setDarkMode(!darkMode)
     }
+    setDarkMode(!darkMode)
   }
 
   // set React-state from Electron-Store

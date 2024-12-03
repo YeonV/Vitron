@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { create } from 'zustand'
 import { combine, devtools, persist } from 'zustand/middleware'
-import { storeBears } from './storeBears'
-import { storeTours } from './storeTours'
-import { storeUI } from './storeUI'
+import { storeBears, storeBearsActions } from './storeBears'
+import { storeTours, storeToursActions } from './storeTours'
+import { storeUI, storeUIActions } from './storeUI'
 
 export const useStore = create(
   devtools(
@@ -13,9 +13,12 @@ export const useStore = create(
           hackedBy: 'Blade'
         },
         (set: any) => ({
-          ui: storeUI(set),
-          tours: storeTours(set),
-          example: storeBears(set)
+          ui: storeUI,
+          tours: storeTours,
+          example: storeBears,
+          ...storeUIActions(set),
+          ...storeBearsActions(set),
+          ...storeToursActions(set)
         })
       ),
       {
