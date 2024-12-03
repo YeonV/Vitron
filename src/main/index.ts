@@ -32,6 +32,20 @@ let tray: Tray | null = null
 
 if (pkg.env.VITRON_CUSTOM_TITLEBAR) setupTitlebar()
 
+const RESOURCES_PATH = app.isPackaged
+  ? join(process.resourcesPath, 'resources')
+  : join(__dirname, '../../resources')
+
+export function selectAppIcon(): string {
+  switch (process.platform) {
+    case 'win32':
+      return join(RESOURCES_PATH, 'icon.ico')
+    case 'darwin':
+      return join(RESOURCES_PATH, 'icon.icns')
+    default:
+      return join(RESOURCES_PATH, 'icon.png')
+  }
+}
 async function createWindow(): Promise<void> {
   await loadElectronStore() // Ensure store is loaded before creating the window
 
@@ -51,7 +65,8 @@ async function createWindow(): Promise<void> {
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false
-    }
+    },
+    icon: selectAppIcon()
   })
 
   mainWindow.on('close', () => {
